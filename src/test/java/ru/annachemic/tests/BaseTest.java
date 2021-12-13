@@ -9,7 +9,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+
+
 public abstract class BaseTest {
+    static ResponseSpecification positiveResponseSpecification;
+    static RequestSpecification requestWithAuth;
+
+
     static Properties properties = new Properties();
     static String token;
     static String username;
@@ -22,6 +28,17 @@ public abstract class BaseTest {
         token = properties.getProperty("token");
         username = properties.getProperty("username");
     }
+
+    positiveResponseSpecification = new ResponseSpecBuilder()
+        .expectStatusCode(200)
+        .expectStatusLine("HTTP/1.1 200 OK")
+        .expectContentType(ContentType.JSON)
+        .expectResponseTime(Matchers.lessThan(5000L))
+        .expectHeader("Access-Control-Allow-Credentials", "true")
+         .build()
+
+
+
 
 
     private static void getProperties(){
